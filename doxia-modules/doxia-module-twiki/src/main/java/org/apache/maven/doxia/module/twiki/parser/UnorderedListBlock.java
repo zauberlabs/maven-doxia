@@ -33,7 +33,7 @@ import org.apache.maven.doxia.sink.Sink;
  * @version $Id$
  */
 class UnorderedListBlock
-    extends ListBlock
+    extends ListBlockItem
 {
     /**
      * Creates the UnorderedListBlock.

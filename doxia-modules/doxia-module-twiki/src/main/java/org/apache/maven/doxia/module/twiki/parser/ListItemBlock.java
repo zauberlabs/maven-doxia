@@ -30,10 +30,10 @@ import org.apache.maven.doxia.sink.Sink;
 class ListItemBlock
     extends AbstractFatherBlock
 {
-    private final ListBlock innerList;
+    final ListBlockItem innerList;
 
     /**
-     * @see #ListItemBlock(Block[], ListBlock)
+     * @see #ListItemBlock(Block[], ListBlockItem)
      */
     ListItemBlock( final Block[] blocks )
     {
@@ -46,20 +46,20 @@ class ListItemBlock
      * @param blocks    text block, not null.
      * @param innerList child list
      */
-    ListItemBlock( final Block[] blocks, final ListBlock innerList )
+    ListItemBlock( final Block[] blocks, final ListBlockItem innerList )
     {
         super( blocks );
         this.innerList = innerList;
     }
 
     /** {@inheritDoc} */
-    final void before( final Sink sink )
+    void before( final Sink sink )
     {
         sink.listItem();
     }
 
     /** {@inheritDoc} */
-    final void after( final Sink sink )
+    void after( final Sink sink )
     {
         if ( innerList != null )
         {
@@ -73,7 +73,7 @@ class ListItemBlock
      *
      * @return <code>UnorderedListBlock</code> with the innerList.
      */
-    final ListBlock getInnerList()
+    final ListBlockItem getInnerList()
     {
         return innerList;
     }

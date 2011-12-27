@@ -19,14 +19,14 @@ package org.apache.maven.doxia.module.twiki.parser;
  * under the License.
  */
 
-import org.apache.maven.doxia.util.ByLineSource;
-import org.apache.maven.doxia.parser.ParseException;
-import org.apache.maven.doxia.sink.Sink;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.apache.maven.doxia.parser.ParseException;
+import org.apache.maven.doxia.sink.Sink;
+import org.apache.maven.doxia.util.ByLineSource;
 
 /**
  * Generic list parser
@@ -129,6 +129,12 @@ public class GenericListBlockParser
 
     interface Type
     {
+        /*
+         * @return whether the list type is ordered or not
+         */
+        boolean isOrdered();
+        
+        
         /**
          * @return the pattern of the item part of the list regex
          */
@@ -138,15 +144,20 @@ public class GenericListBlockParser
          * @param items children of the new listblock
          * @return a new ListBlock
          */
-        ListBlock createList( final ListItemBlock[] items );
+        ListBlockItem createList( final ListItemBlock[] items );
 
     }
 
     /**
      * unordered list
      */
-    private static final Type LIST = new Type()
+    static final Type LIST = new Type()
     {
+        /** {@inheritDoc} */
+        public boolean isOrdered() {
+            return false;
+        }
+        
         /** {@inheritDoc} */
         public String getItemPattern()
         {
@@ -154,7 +165,7 @@ public class GenericListBlockParser
         }
 
         /** {@inheritDoc} */
-        public ListBlock createList( final ListItemBlock[] items )
+        public ListBlockItem createList( final ListItemBlock[] items )
         {
             return new UnorderedListBlock( items );
         }
@@ -163,8 +174,13 @@ public class GenericListBlockParser
     /**
      * a.
      */
-    private static final Type ORDERED_LOWER_ALPHA = new Type()
+    static final Type ORDERED_LOWER_ALPHA = new Type()
     {
+        /** {@inheritDoc} */
+        public boolean isOrdered() {
+            return true;
+        }
+        
         /** {@inheritDoc} */
         public String getItemPattern()
         {
@@ -172,7 +188,7 @@ public class GenericListBlockParser
         }
 
         /** {@inheritDoc} */
-        public ListBlock createList( final ListItemBlock[] items )
+        public ListBlockItem createList( final ListItemBlock[] items )
         {
             return new NumeratedListBlock( Sink.NUMBERING_LOWER_ALPHA, items );
         }
@@ -181,8 +197,13 @@ public class GenericListBlockParser
     /**
      * A.
      */
-    private static final Type ORDERED_UPPER_ALPHA = new Type()
+    static final Type ORDERED_UPPER_ALPHA = new Type()
     {
+        /** {@inheritDoc} */
+        public boolean isOrdered() {
+            return true;
+        }
+        
         /** {@inheritDoc} */
         public String getItemPattern()
         {
@@ -190,7 +211,7 @@ public class GenericListBlockParser
         }
 
         /** {@inheritDoc} */
-        public ListBlock createList( final ListItemBlock[] items )
+        public ListBlockItem createList( final ListItemBlock[] items )
         {
             return new NumeratedListBlock( Sink.NUMBERING_UPPER_ALPHA, items );
         }
@@ -199,8 +220,13 @@ public class GenericListBlockParser
     /**
      * 1.
      */
-    private static final Type ORDERERED_DECIMAL = new Type()
+    static final Type ORDERERED_DECIMAL = new Type()
     {
+        /** {@inheritDoc} */
+        public boolean isOrdered() {
+            return true;
+        }
+        
         /** {@inheritDoc} */
         public String getItemPattern()
         {
@@ -208,7 +234,7 @@ public class GenericListBlockParser
         }
 
         /** {@inheritDoc} */
-        public ListBlock createList( final ListItemBlock[] items )
+        public ListBlockItem createList( final ListItemBlock[] items )
         {
             return new NumeratedListBlock( Sink.NUMBERING_DECIMAL, items );
         }
@@ -217,8 +243,13 @@ public class GenericListBlockParser
     /**
      * i.
      */
-    private static final Type ORDERERED_LOWER_ROMAN = new Type()
+    static final Type ORDERERED_LOWER_ROMAN = new Type()
     {
+        /** {@inheritDoc} */
+        public boolean isOrdered() {
+            return true;
+        }
+        
         /** {@inheritDoc} */
         public String getItemPattern()
         {
@@ -226,7 +257,7 @@ public class GenericListBlockParser
         }
 
         /** {@inheritDoc} */
-        public ListBlock createList( final ListItemBlock[] items )
+        public ListBlockItem createList( final ListItemBlock[] items )
         {
             return new NumeratedListBlock( Sink.NUMBERING_LOWER_ROMAN, items );
         }
@@ -235,8 +266,13 @@ public class GenericListBlockParser
     /**
      * I.
      */
-    private static final Type ORDERERED_UPPER_ROMAN = new Type()
+    static final Type ORDERERED_UPPER_ROMAN = new Type()
     {
+        /** {@inheritDoc} */
+        public boolean isOrdered() {
+            return true;
+        }
+        
         /** {@inheritDoc} */
         public String getItemPattern()
         {
@@ -244,13 +280,13 @@ public class GenericListBlockParser
         }
 
         /** {@inheritDoc} */
-        public ListBlock createList( final ListItemBlock[] items )
+        public ListBlockItem createList( final ListItemBlock[] items )
         {
             return new NumeratedListBlock( Sink.NUMBERING_UPPER_ROMAN, items );
         }
     };
 
-    private static final Type[] TYPES =
+    static final Type[] TYPES =
         { LIST, ORDERED_LOWER_ALPHA, ORDERED_UPPER_ALPHA, ORDERERED_DECIMAL, ORDERERED_LOWER_ROMAN,
             ORDERERED_UPPER_ROMAN };
 
@@ -352,7 +388,7 @@ class TreeListBuilder
     /**
      * @return a Block for the list that we received
      */
-    ListBlock getBlock()
+    ListBlockItem getBlock()
     {
         return getList( root );
     }
@@ -363,9 +399,9 @@ class TreeListBuilder
      * @param tc tree
      * @return list Block for this tree
      */
-    private ListBlock getList( final TreeComponent tc )
+    private ListBlockItem getList( final TreeComponent tc )
     {
-        ListItemBlock[] li = getListItems( tc ).toArray( new ListItemBlock[] {} );
+        ListItemBlock[] li = getListItems( tc, tc.getChildren()[0].getType() ).toArray( new ListItemBlock[] {} );
         return tc.getChildren()[0].getType().createList( li );
     }
 
@@ -373,7 +409,7 @@ class TreeListBuilder
      * @param tc tree
      * @return list Block for this tree
      */
-    private List<ListItemBlock> getListItems( final TreeComponent tc )
+    private List<ListItemBlock> getListItems( final TreeComponent tc, GenericListBlockParser.Type t )
     {
         final List<ListItemBlock> blocks = new ArrayList<ListItemBlock>();
 
@@ -387,13 +423,24 @@ class TreeListBuilder
                 text = textParser.parse( child.getText() );
             }
 
+            
+            
             if ( child.getChildren().length != 0 )
             {
-                blocks.add( new ListItemBlock( text, getList( child ) ) );
+                if (!t.isOrdered()) {
+                    blocks.add( new ListItemBlock( text, getList( child ) ) );
+                } else {
+                    blocks.add( new NumeratedListItemBlock( text, getList( child ) ) );
+                }
+                
             }
             else
             {
-                blocks.add( new ListItemBlock( text ) );
+                if (!t.isOrdered()) {
+                    blocks.add( new ListItemBlock( text ) );
+                } else {
+                    blocks.add( new NumeratedListItemBlock( text ) );
+                }
             }
         }
 
