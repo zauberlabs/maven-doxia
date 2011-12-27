@@ -30,7 +30,7 @@ package org.apache.maven.doxia.module.twiki.parser;
  * @author Juan F. Codagnone
  * @version $Id$
  */
-abstract class ListBlock
+abstract class ListBlockItem
     extends AbstractFatherBlock
 {
     /**
@@ -38,7 +38,7 @@ abstract class ListBlock
      *
      * @param blocks list of list items, not null.
      */
-    ListBlock( final ListItemBlock[] blocks )
+    ListBlockItem( final ListItemBlock[] blocks )
     {
         super( blocks );
     }

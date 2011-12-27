@@ -63,7 +63,7 @@ public class ListTest
             assertEquals( ListItemBlock.class, block.getClass() );
         }
 
-        ListBlock list;
+        ListBlockItem list;
         ListItemBlock item;
         Block[] blocks;
 
@@ -92,9 +92,9 @@ public class ListTest
         Block blocks, expected;
         expected =
             new NumeratedListBlock( Sink.NUMBERING_DECIMAL, new ListItemBlock[] {
-                new ListItemBlock( new Block[] { new TextBlock( "item1" ) } ),
-                new ListItemBlock( new Block[] { new TextBlock( "item2" ) } ),
-                new ListItemBlock( new Block[] { new TextBlock( "item3" ) } ) } );
+                new NumeratedListItemBlock( new Block[] { new TextBlock( "item1" ) } ),
+                new NumeratedListItemBlock( new Block[] { new TextBlock( "item2" ) } ),
+                new NumeratedListItemBlock( new Block[] { new TextBlock( "item3" ) } ) } );
         blocks = listParser.visit( source.getNextLine(), source );
         assertEquals( expected, blocks );
     }
@@ -113,15 +113,15 @@ public class ListTest
         Block blocks, expected;
         expected =
             new NumeratedListBlock( Sink.NUMBERING_UPPER_ALPHA, new ListItemBlock[] {
-                new ListItemBlock( new Block[] { new TextBlock( "item1" ) },
+                new NumeratedListItemBlock( new Block[] { new TextBlock( "item1" ) },
                                    new UnorderedListBlock( new ListItemBlock[] {
                                        new ListItemBlock( new Block[] { new TextBlock( "item1.1" ) } ),
                                        new ListItemBlock( new Block[] { new TextBlock( "item1.2" ) } ) } ) ),
-                new ListItemBlock( new Block[] { new TextBlock( "item2" ) },
+                new NumeratedListItemBlock( new Block[] { new TextBlock( "item2" ) },
                                    new NumeratedListBlock( Sink.NUMBERING_LOWER_ROMAN, new ListItemBlock[] {
-                                       new ListItemBlock( new Block[] { new TextBlock( "item2.1" ) } ),
-                                       new ListItemBlock( new Block[] { new TextBlock( "item2.2" ) } ) } ) ),
-                new ListItemBlock( new Block[] { new TextBlock( "item3" ) } ) } );
+                                       new NumeratedListItemBlock( new Block[] { new TextBlock( "item2.1" ) } ),
+                                       new NumeratedListItemBlock( new Block[] { new TextBlock( "item2.2" ) } ) } ) ),
+                new NumeratedListItemBlock( new Block[] { new TextBlock( "item3" ) } ) } );
         blocks = listParser.visit( source.getNextLine(), source );
         assertEquals( expected, blocks );
     }
