@@ -1,5 +1,6 @@
 package org.apache.maven.doxia.module.markdown;
 
+
 import static org.apache.maven.doxia.module.markdown.MarkdownMarkup.BOLD_ITALIC_END_MARKUP;
 import static org.apache.maven.doxia.module.markdown.MarkdownMarkup.BOLD_ITALIC_START_MARKUP;
 import static org.apache.maven.doxia.module.markdown.MarkdownMarkup.HORIZONTAL_RULE_MARKUP;
@@ -14,13 +15,14 @@ import org.apache.maven.doxia.sink.AbstractSinkTest;
 import org.apache.maven.doxia.sink.Sink;
 import org.codehaus.plexus.util.StringUtils;
 
+
 /**
  * Tests the Sink's Functionality
  * 
  * @author Cristian Pereyra
  * @since Dec 26, 2011
  */
-public class MarkdownSinkTest extends AbstractSinkTest{
+public class MarkdownSinkTest extends AbstractSinkTest {
 
     /** {@inheritDoc} */
     @Override
