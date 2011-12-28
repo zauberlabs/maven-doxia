@@ -1,19 +1,9 @@
 package org.apache.maven.doxia.module.markdown;
 
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.io.Writer;
 
-import junit.framework.Assert;
-
-import org.apache.maven.doxia.logging.Log;
-import org.apache.maven.doxia.module.twiki.TWikiParser;
-import org.apache.maven.doxia.parser.ParseException;
 import org.apache.maven.doxia.sink.AbstractSinkTest;
 import org.apache.maven.doxia.sink.Sink;
-import org.junit.Test;
-
-import com.zaubersoftware.labs.twiki2markdown.MarkdownSink;
 
 /*
  * Copyright (c) 2011 Zauber S.A. -- All rights reserved
