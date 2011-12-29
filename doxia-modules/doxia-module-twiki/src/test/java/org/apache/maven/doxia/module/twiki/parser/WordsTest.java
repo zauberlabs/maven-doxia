@@ -296,6 +296,7 @@ public class WordsTest
     /** unit test */
     public final void testLinkImage()
     {
+        
         Block[] blocks, expected;
 
         expected =
@@ -317,11 +318,7 @@ public class WordsTest
         expected =
             new Block[] { new TextBlock( "My summer house: " ), new ImageBlock( "images/summerhouse.png" ),
                 new TextBlock( " isn't it great?!" ) };
-        blocks =
-            (Block[]) textParser
-                                .parse(
-                                        "My summer house: <img class=\"some_class\" src=\"images/summerhouse.png\"/> isn't it great?!" )
-                                .toArray( TOARRAY );
+        blocks =(Block[]) textParser.parse("My summer house: <img class=\"some_class\" src=\"images/summerhouse.png\"/> isn't it great?!" ).toArray( TOARRAY );
         assertTrue( Arrays.equals( expected, blocks ) );
     }
 }

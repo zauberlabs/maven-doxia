@@ -29,7 +29,7 @@ public class NumeratedListItemBlock extends ListItemBlock {
      */
     NumeratedListItemBlock( final Block[] blocks, final ListBlockItem innerList )
     {
-        super( blocks );
+        super( blocks, innerList );
     }
 
     /** {@inheritDoc} */

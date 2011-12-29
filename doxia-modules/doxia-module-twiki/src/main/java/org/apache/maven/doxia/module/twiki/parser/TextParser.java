@@ -118,6 +118,9 @@ public class TextParser
                 Pattern.compile( "(\\<" + tag + ".*\\>)(.*)?(\\<\\/" + tag + "\\>)(.*)?", Pattern.DOTALL );
             xhtmlMatcher = pattern.matcher( line );
         }
+        
+        
+        
 
         if ( xhtmlMatcher != null && xhtmlMatcher.find() )
         {
@@ -330,6 +333,8 @@ public class TextParser
      */
     private void parseXHTML( final String line, final List<Block> ret, final Matcher xhtmlMatcher )
     {
+        ret.addAll( parse( line.substring( 0, xhtmlMatcher.start() ).trim() ) );
+        
         if ( xhtmlMatcher.group( 1 ).indexOf( "noautolink" ) != -1 )
         {
             noautolink = true;
@@ -351,6 +356,8 @@ public class TextParser
         }
 
         ret.addAll( parse( xhtmlMatcher.group( 4 ) ) );
+        
+        ret.addAll( parse( line.substring( xhtmlMatcher.end(), line.length() ).trim() ) );
     }
 
     /**

@@ -235,6 +235,7 @@ public class TWikiParser
         sectionParser.setHrulerParser( hrulerParser );
         sectionParser.setVerbatimBlockParser( verbatimParser );
         listParser.setTextParser( formatTextParser );
+        listParser.setVerbatimParser( verbatimParser );
         formatTextParser.setTextParser( textParser );
         tableParser.setTextParser( formatTextParser );
 

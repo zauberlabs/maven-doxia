@@ -92,7 +92,6 @@ public class VerbatimTest
 
         List block = twikiParser.parse( source );
         assertTrue( Arrays.equals( block.toArray(), expected ) );
-
     }
 
     /** test
