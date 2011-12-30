@@ -105,9 +105,14 @@ public class ListTest
     public final void testHetero()
         throws ParseException
     {
-        final String text =
-            "" + "   A. item1\n" + "      * item1.1\n" + "      * item1.2\n" + "   B. item2\n"
-                + "      i. item2.1\n" + "      i. item2.2\n" + "   C. item3";
+        final String text = "" 
+                + "   A. item1\n" 
+                + "      * item1.1\n" 
+                + "      * item1.2\n" 
+                + "   B. item2\n"
+                + "      i. item2.1\n" 
+                + "      i. item2.2\n" 
+                + "   C. item3";
 
         final ByLineSource source = new ByLineReaderSource( new StringReader( text ) );
         Block blocks, expected;
@@ -125,4 +130,5 @@ public class ListTest
         blocks = listParser.visit( source.getNextLine(), source );
         assertEquals( expected, blocks );
     }
+    
 }

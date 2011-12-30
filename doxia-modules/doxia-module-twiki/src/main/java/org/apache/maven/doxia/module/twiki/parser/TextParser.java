@@ -118,6 +118,9 @@ public class TextParser
                 Pattern.compile( "(\\<" + tag + ".*\\>)(.*)?(\\<\\/" + tag + "\\>)(.*)?", Pattern.DOTALL );
             xhtmlMatcher = pattern.matcher( line );
         }
+        
+        
+        
 
         if ( xhtmlMatcher != null && xhtmlMatcher.find() )
         {
@@ -363,7 +366,6 @@ public class TextParser
         }
        
         ret.addAll( parse( line.substring( xhtmlMatcher.end(), line.length() ).trim() ) );
-
     }
 
     /**
