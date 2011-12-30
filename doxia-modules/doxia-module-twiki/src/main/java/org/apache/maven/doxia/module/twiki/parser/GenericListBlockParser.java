@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.maven.doxia.module.twiki.TWikiMarkup;
 import org.apache.maven.doxia.parser.ParseException;
 import org.apache.maven.doxia.sink.Sink;
 import org.apache.maven.doxia.util.ByLineSource;
@@ -487,6 +488,15 @@ class TreeListBuilder
             this.text = text;
             this.father = father;
             this.type = type;
+        }
+
+        /**
+         * Appends text to the curren bullet
+         * 
+         * @param new line of text to add
+         */
+        public void appendText(String newLine) {
+            text = text + " " + newLine.trim() + TWikiMarkup.EOL;
         }
 
         /**

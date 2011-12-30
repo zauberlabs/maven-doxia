@@ -107,8 +107,8 @@ public class TextParser
         final Matcher anchorMatcher = ANCHOR_PATTERN.matcher( line );
         final Matcher urlMatcher = URL_PATTERN.matcher( line );
         final Matcher imageTagMatcher = IMAGE_TAG_PATTERN.matcher( line );
-
         final Matcher tagMatcher = HTML_TAG_PATTERN.matcher( line );
+        
         Matcher xhtmlMatcher = null;
         if ( tagMatcher.find() )
         {
@@ -330,27 +330,40 @@ public class TextParser
      */
     private void parseXHTML( final String line, final List<Block> ret, final Matcher xhtmlMatcher )
     {
-        if ( xhtmlMatcher.group( 1 ).indexOf( "noautolink" ) != -1 )
-        {
-            noautolink = true;
-        }
-        else
-        {
-            ret.add( new XHTMLBlock( xhtmlMatcher.group( 1 ) ) );
-        }
 
-        ret.addAll( parse( xhtmlMatcher.group( 2 ) ) );
-
-        if ( xhtmlMatcher.group( 1 ).indexOf( "noautolink" ) != -1 )
+        ret.addAll( parse( line.substring( 0, xhtmlMatcher.start() ).trim() ) );
+        
+        if (xhtmlMatcher.group( 1 ).indexOf( "verbatim" ) != -1 &&     
+            xhtmlMatcher.group( 3 ).indexOf( "verbatim" ) != -1)
         {
-            noautolink = false;
+            ret.add( new VerbatimBlock( new TextBlock[] { new TextBlock( xhtmlMatcher.group( 2 ) ) } ) ) ;
         }
-        else
-        {
-            ret.add( new XHTMLBlock( xhtmlMatcher.group( 3 ) ) );
+        else {
+            if ( xhtmlMatcher.group( 1 ).indexOf( "noautolink" ) != -1 )
+            {
+                noautolink = true;
+            }
+            else
+            {
+                ret.add( new XHTMLBlock( xhtmlMatcher.group( 1 ) ) );
+            }
+    
+            ret.addAll( parse( xhtmlMatcher.group( 2 ) ) );
+    
+            if ( xhtmlMatcher.group( 1 ).indexOf( "noautolink" ) != -1 )
+            {
+                noautolink = false;
+            }
+            else
+            {
+                ret.add( new XHTMLBlock( xhtmlMatcher.group( 3 ) ) );
+            }
+    
+            ret.addAll( parse( xhtmlMatcher.group( 4 ) ) );
         }
+       
+        ret.addAll( parse( line.substring( xhtmlMatcher.end(), line.length() ).trim() ) );
 
-        ret.addAll( parse( xhtmlMatcher.group( 4 ) ) );
     }
 
     /**

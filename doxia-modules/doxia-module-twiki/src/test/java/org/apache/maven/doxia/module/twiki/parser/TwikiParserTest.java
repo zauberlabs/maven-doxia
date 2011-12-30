@@ -62,7 +62,7 @@ public class TwikiParserTest
         throws Exception
     {
         // DOXIA-441
-        final String text = "_ita_, *b* and a bit of <font color=\"red\">red</font>";
+        final String text = "_ita_, *b* and a bit of <font color=\"red\">red</font><verbatim>some code</verbatim>";
 
         SinkEventTestingSink sink = new SinkEventTestingSink();
 
@@ -91,10 +91,9 @@ public class TwikiParserTest
         assertEquals( "b", textElement.getArgs()[0] );
         assertEquals( "bold_", ( it.next() ).getName() );
 
-        // FIXME!
-        //textElement = it.next();
-        //assertEquals( "text", textElement.getName() );
-        //assertEquals( "and a bit of", textElement.getArgs()[0] );
+        textElement = it.next();
+        assertEquals( "text", textElement.getName() );
+        assertEquals( "and a bit of", textElement.getArgs()[0] );
 
         textElement = it.next();
         assertEquals( "rawText", textElement.getName() );
@@ -108,6 +107,10 @@ public class TwikiParserTest
         assertEquals( "rawText", textElement.getName() );
         assertEquals( "</font>", textElement.getArgs()[0] );
 
+        assertEquals( "verbatim", ( it.next() ).getName() );
+        assertEquals( "text", ( it.next() ).getName() );
+        assertEquals( "verbatim_", ( it.next() ).getName() );
+        
         assertEquals( "paragraph_", ( it.next() ).getName() );
         assertEquals( "body_", ( it.next() ).getName() );
         assertEquals( "flush", ( it.next() ).getName() );
