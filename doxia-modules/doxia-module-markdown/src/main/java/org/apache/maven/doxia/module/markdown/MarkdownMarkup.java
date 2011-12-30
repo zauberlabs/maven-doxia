@@ -19,8 +19,6 @@ package org.apache.maven.doxia.module.markdown;
  * under the License.
  */
 
-import javax.swing.text.html.HTML.Tag;
-
 import org.apache.maven.doxia.markup.TextMarkup;
 
 /**
@@ -44,11 +42,11 @@ public interface MarkdownMarkup
     /** Syntax for the start line separator: "   " */
     String THREE_SPACES_MARKUP = "   ";
 
-    /** Syntax for the bold markup: "**" */
-    String BOLD_END_MARKUP = "**";
+    /** Syntax for the bold markup: "__" */
+    String BOLD_END_MARKUP = "__";
 
-    /** Syntax for the bold markup: "**" */
-    String BOLD_START_MARKUP = "**";
+    /** Syntax for the bold markup: "__" */
+    String BOLD_START_MARKUP = "__";
 
     /** Syntax for the bold italic markup: "____" */
     String BOLD_ITALIC_END_MARKUP = "___";
@@ -71,15 +69,24 @@ public interface MarkdownMarkup
     /** Syntax for the italic markup: "_" */
     String ITALIC_START_MARKUP = "_";
 
-    /** Syntax for the link end markup: "]]" */
-    String LINK_END_MARKUP = "]]";
+    /** Syntax for the link end markup: ")" */
+    String LINK_END_MARKUP = ")";
 
     /** Syntax for the link middle markup: "][" */
-    String LINK_MIDDLE_MARKUP = "][";
+    String LINK_MIDDLE_MARKUP = "](";
 
     /** Syntax for the link start markup: "[[" */
-    String LINK_START_MARKUP = "[[";
-
+    String LINK_START_MARKUP = "[";
+    
+    /** Syntax for the figure start markup: "![" */
+    String FIGURE_START_MARKUP = "![";
+    
+    /** Syntax for the figure start markup: "](" */
+    String FIGURE_MIDDLE_MARKUP = "](";
+    
+    /** Syntax for the figure start markup: ")" */
+    String FIGURE_END_MARKUP = ")";
+    
     /** Syntax for the list item markup: "*" */
     String LIST_ITEM_MARKUP = "* ";
 
@@ -108,13 +115,5 @@ public interface MarkdownMarkup
     // Specific Markdown tags
     // ----------------------------------------------------------------------
 
-    /** TWiki tag for <code>verbatim</code> */
-    Tag VERBATIM_TAG = new Tag()
-    {
-        /** {@inheritDoc} */
-        public String toString()
-        {
-            return "verbatim";
-        }
-    };
+    String VERBATIM_STYLE = "     ";
 }
