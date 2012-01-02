@@ -133,7 +133,7 @@ public class MarkdownSinkTest extends AbstractSinkTest {
     /** {@inheritDoc} */
     @Override
     protected String getNumberedListBlock(String item) {
-        return NUMBERING_LOWER_ROMAN_MARKUP + " " + item + EOL;
+        return MarkdownMarkup.NUMBERING_MARKUP + " " + item + EOL;
     }
 
     /** {@inheritDoc} */
@@ -163,7 +163,7 @@ public class MarkdownSinkTest extends AbstractSinkTest {
     /** {@inheritDoc} */
     @Override
     protected String getVerbatimBlock(String text) {
-        return MarkdownMarkup.VERBATIM_STYLE + text + EOL;
+        return EOL + MarkdownMarkup.VERBATIM_STYLE + text + EOL;
     }
 
     /** {@inheritDoc} */
