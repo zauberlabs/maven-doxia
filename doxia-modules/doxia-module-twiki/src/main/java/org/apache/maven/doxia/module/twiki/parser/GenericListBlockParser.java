@@ -145,7 +145,7 @@ public class GenericListBlockParser implements BlockParser {
                              buffer = buffer.concat(l.substring( 0, matcher.end() ) + "\n" );
                              break;
                          }
-                         buffer = buffer.concat(l);
+                         buffer = buffer.concat(l + "\n");
                          
                          l = source.getNextLine();
                      }
