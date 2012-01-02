@@ -115,5 +115,5 @@ public interface MarkdownMarkup
     // Specific Markdown tags
     // ----------------------------------------------------------------------
 
-    String VERBATIM_STYLE = "          ";
+    String VERBATIM_STYLE = "       ";
 }
