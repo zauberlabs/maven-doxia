@@ -41,6 +41,10 @@ public class GenericListBlockParser implements BlockParser {
     private FormatedTextParser formatedTextParser;
 
     private final Pattern compatiblePattern = Pattern.compile("^(( )+)(.*)$");
+    
+    private static final Pattern VERBATIM_START_PATTERN = Pattern.compile( "<verbatim>" );
+
+    private static final Pattern VERBATIM_END_PATTERN = Pattern.compile( "</verbatim>" );
 
     /**
      * supported patterns
@@ -81,7 +85,7 @@ public class GenericListBlockParser implements BlockParser {
         }
         return -1;
     }
-
+    
     /**
      * {@inheritDoc}
      */
@@ -89,12 +93,21 @@ public class GenericListBlockParser implements BlockParser {
         final TreeListBuilder treeListBuilder = new TreeListBuilder(formatedTextParser);
         // new TreeListBuilder(formatedTextParser);
         String l = line;
+        
+        VerbatimBlockParser verbatim = new VerbatimBlockParser();
 
+        
         boolean matchedOnce = false;
         do {
+             String matcherLine = null;
+            
             
              Matcher m = null;
+ 
              int matcherIndex = getListMatcher(l);
+             
+             
+
              
              if (matcherIndex != -1) {
                  m = patterns[matcherIndex].matcher(l);
@@ -103,7 +116,47 @@ public class GenericListBlockParser implements BlockParser {
                  final int textGroup = 3;
                  assert m.group(1).length() % numberOfSpaces == 0;
                  final int level = m.group(1).length() / numberOfSpaces;
-                 treeListBuilder.feedEntry(TYPES[matcherIndex], level, m.group(textGroup).trim());
+                 
+                 String bulletText = m.group(textGroup).trim();
+                 
+                 l = bulletText;
+                 
+                 Matcher verbatimMatcher = VERBATIM_START_PATTERN.matcher(bulletText);
+                 
+                 String buffer = "";
+                 
+                 if (verbatimMatcher.find()) {
+                     
+
+                     buffer = buffer.concat(bulletText.substring(verbatimMatcher.start()).trim());
+                     
+                     bulletText = bulletText.substring(0, verbatimMatcher.start()).trim();
+                     
+                     
+                     l = l.substring( verbatimMatcher.end() );
+                     
+                     
+                     Matcher matcher = null;
+                     while ( l != null )
+                     {
+                         matcher = VERBATIM_END_PATTERN.matcher( l );
+                         if ( matcher.find() )
+                         {
+                             buffer = buffer.concat(l.substring( 0, matcher.end() ) + "\n" );
+                             break;
+                         }
+                         buffer = buffer.concat(l);
+                         
+                         l = source.getNextLine();
+                     }
+                 }
+
+                 treeListBuilder.feedEntry(TYPES[matcherIndex], level, bulletText);
+                 
+                 if (buffer.length() > 0) {
+                     treeListBuilder.expandEntry(buffer);
+                 }
+                 
                  matchedOnce = true;
              } else {
                m = getExpandMatcher(l);
