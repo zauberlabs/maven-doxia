@@ -66,7 +66,8 @@ public class TwikiParserTest
         		            "<verbatim>\nsome code\nother code\n</verbatim> hola" +
         		            "\n   * Configurar los xml de contexto de la siguiente forma:<verbatim>"
                            + "\n<Environment name=\"filePathIntextualWebProperties\" value=\"file:/home/ubuntu/deploy/config/backoffice/web.properties\" type=\"java.lang.String\" override=\"false\"/>"
-        		            +"\n</verbatim>";
+                           + "\n<Environment name=\"filePathIntextualWebProperties\" value=\"file:/home/ubuntu/deploy/config/backoffice/web.properties\" type=\"java.lang.String\" override=\"false\"/>"
+                           +"\n</verbatim>";
 
         SinkEventTestingSink sink = new SinkEventTestingSink();
 
