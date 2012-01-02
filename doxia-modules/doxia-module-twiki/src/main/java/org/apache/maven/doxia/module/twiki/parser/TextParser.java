@@ -115,7 +115,7 @@ public class TextParser
             String tag = tagMatcher.group( 2 );
 
             Pattern pattern =
-                Pattern.compile( "(\\<" + tag + ".*\\>)(.*)?(\\<\\/" + tag + "\\>)(.*)?", Pattern.DOTALL );
+                Pattern.compile( "(\\<" + tag + "[^<>]*\\>)((?:(?!\\<" + tag + "[^<>]*\\>).)*)?(\\<\\/" + tag + "\\>)(.*)?", Pattern.DOTALL );
             xhtmlMatcher = pattern.matcher( line );
         }
         
@@ -339,7 +339,9 @@ public class TextParser
         if (xhtmlMatcher.group( 1 ).indexOf( "verbatim" ) != -1 &&     
             xhtmlMatcher.group( 3 ).indexOf( "verbatim" ) != -1)
         {
+            
             ret.add( new VerbatimBlock( new TextBlock[] { new TextBlock( xhtmlMatcher.group( 2 ) ) } ) ) ;
+            ret.addAll( parse( xhtmlMatcher.group( 4 ) ) );
         }
         else {
             if ( xhtmlMatcher.group( 1 ).indexOf( "noautolink" ) != -1 )
