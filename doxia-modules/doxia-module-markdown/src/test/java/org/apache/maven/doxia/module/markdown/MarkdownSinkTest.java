@@ -127,13 +127,13 @@ public class MarkdownSinkTest extends AbstractSinkTest {
     /** {@inheritDoc} */
     @Override
     protected String getListBlock(String item) {
-        return LIST_ITEM_MARKUP + item + EOL;
+        return EOL + EOL + LIST_ITEM_MARKUP + item + EOL;
     }
 
     /** {@inheritDoc} */
     @Override
     protected String getNumberedListBlock(String item) {
-        return MarkdownMarkup.NUMBERING_MARKUP + " " + item + EOL;
+        return EOL + EOL + MarkdownMarkup.NUMBERING_MARKUP + " " + item + EOL;
     }
 
     /** {@inheritDoc} */
