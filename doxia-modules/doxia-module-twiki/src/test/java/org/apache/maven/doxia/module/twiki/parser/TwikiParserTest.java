@@ -64,7 +64,7 @@ public class TwikiParserTest
         // DOXIA-441
         final String text = "_ita_, *b* and a bit of <font color=\"red\">red</font>" +
         		            "<verbatim>\nsome code\nother code\n</verbatim> hola" +
-        		            "\nConfigurar los xml de contexto de la siguiente forma:<verbatim>"
+        		            "\n   * Configurar los xml de contexto de la siguiente forma:<verbatim>"
                            + "\n<Environment name=\"filePathIntextualWebProperties\" value=\"file:/home/ubuntu/deploy/config/backoffice/web.properties\" type=\"java.lang.String\" override=\"false\"/>"
         		            +"\n</verbatim>";
 
@@ -117,9 +117,17 @@ public class TwikiParserTest
         
         assertEquals( "text", ( it.next() ).getName() );
         
+        assertEquals( "list", ( it.next() ).getName() );
+        assertEquals( "listItem", ( it.next() ).getName() );
+        
+        assertEquals( "text", ( it.next() ).getName() );
         assertEquals( "verbatim", ( it.next() ).getName() );
         assertEquals( "text", ( it.next() ).getName() );
         assertEquals( "verbatim_", ( it.next() ).getName() );
+        
+        assertEquals( "listItem_", ( it.next() ).getName() );
+        assertEquals( "list_", ( it.next() ).getName() );
+
         
         
         assertEquals( "paragraph_", ( it.next() ).getName() );
