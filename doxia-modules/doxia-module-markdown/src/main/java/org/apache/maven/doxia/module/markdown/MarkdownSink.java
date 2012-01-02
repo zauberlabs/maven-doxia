@@ -79,7 +79,7 @@ public class MarkdownSink extends AbstractTextSink {
             outputWrite(text);
         } else {
             String[] lines = text.split("\n");
-            outputWrite("\n");    
+            outputWrite("\n\n");    
             for (int i = 0; i < lines.length; i++) {
                 if (bulletDepth > 0) {
                     for (int j = 0; j < bulletDepth; j++) {
