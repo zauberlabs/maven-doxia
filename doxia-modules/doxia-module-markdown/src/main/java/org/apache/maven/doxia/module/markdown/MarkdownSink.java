@@ -40,7 +40,7 @@ public class MarkdownSink extends AbstractTextSink {
      * Writes to the output
      * @param s The string to write
      */
-    private void outputWrite(final String s) {
+    protected void outputWrite(final String s) {
         try {
             output.write(s);
         } catch (IOException e) {
@@ -69,7 +69,7 @@ public class MarkdownSink extends AbstractTextSink {
     /** @see org.apache.maven.doxia.sink.SinkAdapter#text(java.lang.String, 
      *  org.apache.maven.doxia.sink.SinkEventAttributes) */
     @Override
-    public final void text(String text) {
+    public void text(String text) {
         if (avoidText) {
             avoidText = false;
             return;
@@ -321,20 +321,20 @@ public class MarkdownSink extends AbstractTextSink {
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#link(java.lang.String) */
     @Override
-    public final void link(final String url) {
+    public void link(final String url) {
         auxString = url;
         outputWrite("[");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#link_() */
     @Override
-    public final void link_() {
+    public void link_() {
         outputWrite("](" + auxString + ")");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#rawText(java.lang.String) */
     @Override
-    public final void rawText(final String text) {
+    public void rawText(final String text) {
         outputWrite(text);
     }
     
@@ -362,14 +362,12 @@ public class MarkdownSink extends AbstractTextSink {
     @Override
     public void figureCaption_() {
 
-            
-
     }
 
     /** @see org.apache.maven.doxia.sink.SinkAdapter#figureGraphics(java.lang.String, 
      * org.apache.maven.doxia.sink.SinkEventAttributes) */
     @Override
-    public final void figureGraphics(final String name) {
+    public void figureGraphics(final String name) {
         auxString = name;
     }
 
