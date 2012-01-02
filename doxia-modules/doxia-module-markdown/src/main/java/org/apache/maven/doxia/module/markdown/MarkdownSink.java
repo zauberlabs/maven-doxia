@@ -225,13 +225,15 @@ public class MarkdownSink extends AbstractTextSink {
     /** @see org.apache.maven.doxia.sink.SinkAdapter#list() */
     @Override
     public void list() {
-
+        if (bulletDepth == 0) {
+            outputWrite("\n\n");
+        }
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#list_() */
     @Override
     public void list_() {
-
+        
     }
     
     
@@ -262,6 +264,9 @@ public class MarkdownSink extends AbstractTextSink {
     @Override
     public final void numberedList(final int numbering) {
         currentBulletType.push(numbering);
+        if (bulletDepth == 0) {
+            outputWrite("\n\n");
+        }
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#numberedList(int) */
