@@ -37,7 +37,7 @@ public class TextParser
      * pattern to detect WikiWords
      */
     private static final Pattern WIKIWORD_PATTERN =
-        Pattern.compile( "(!?([A-Z]\\w*[.])?([A-Z]{1}[a-z0-9]*){2,}(#\\w*)?)" );
+        Pattern.compile( "(!?)?(([A-Z]{1}[a-z0-9]+)?([A-Z]{1,2}[a-z0-9]+){1,}\\.)?([A-Z]{1}[a-z0-9]+)?([A-Z]{1,2}[a-z0-9]+){2,}(#\\w+)?" );
 
     /**
      * pattern to detect SpecificLinks links [[reference][text]]

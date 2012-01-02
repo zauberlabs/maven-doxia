@@ -105,13 +105,13 @@ public class MarkdownSink extends AbstractTextSink {
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#verbatim(boolean) */
     @Override
-    public final void verbatim(final boolean boxed) {
+    public void verbatim(final boolean boxed) {
         inVerbatim = true;
     }
 
     /** @see org.apache.maven.doxia.sink.SinkAdapter#verbatim_() */
     @Override
-    public final void verbatim_() {
+    public void verbatim_() {
         inVerbatim = false;    
     }
 
