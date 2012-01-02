@@ -86,7 +86,7 @@ public class MarkdownSink extends AbstractTextSink {
                         outputWrite("  ");
                     }
                 }
-                outputWrite("     " + lines[i]);
+                outputWrite(MarkdownMarkup.VERBATIM_STYLE + lines[i]);
                 outputWrite("\n");    
             }
         }
