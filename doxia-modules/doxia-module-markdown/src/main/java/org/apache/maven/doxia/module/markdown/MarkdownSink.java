@@ -21,8 +21,8 @@ import org.apache.maven.doxia.sink.Sink;
 public class MarkdownSink extends AbstractTextSink {
     
     private Writer  output;
-    private boolean inVerbatim       = false;
-    private boolean avoidText        = false;
+    protected boolean inVerbatim       = false;
+    protected boolean avoidText        = false;
     private String  auxString        = null;
     private int     bulletDepth      = 0;
     private Stack<Integer>     currentBulletType = new Stack<Integer>();
@@ -136,13 +136,13 @@ public class MarkdownSink extends AbstractTextSink {
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#monospaced() */
     @Override
-    public final void monospaced() {
+    public void monospaced() {
         outputWrite("`");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#monospaced_() */
     @Override
-    public final void monospaced_() {
+    public void monospaced_() {
         this.monospaced();
     }
     
@@ -233,7 +233,9 @@ public class MarkdownSink extends AbstractTextSink {
     /** @see org.apache.maven.doxia.sink.SinkAdapter#list_() */
     @Override
     public void list_() {
-        
+        if (bulletDepth == 0) {
+            outputWrite("\n");
+        }
     }
     
     
@@ -273,6 +275,9 @@ public class MarkdownSink extends AbstractTextSink {
     @Override
     public final void numberedList_() {
         currentBulletType.pop();
+        if (bulletDepth == 0) {
+            outputWrite("\n");
+        }
     }
   
 
@@ -374,61 +379,62 @@ public class MarkdownSink extends AbstractTextSink {
     /** @see org.apache.maven.doxia.sink.SinkAdapter#tableCell(java.lang.String) */
     @Override
     public void tableCell() {
-        outputWrite("<td>");
+        outputWrite("    <td>\n" +
+        		    "      ");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#tableCell_(java.lang.String) */
     @Override
     public void tableCell_() {
-        outputWrite("</td>");
+        outputWrite("\n    </td>\n");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#tableRow() */
     @Override
     public void tableRow() {
-        outputWrite("<tr>");
+        outputWrite("  <tr>\n");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#tableRow() */
     @Override
     public void tableRow_() {
-        outputWrite("</tr>");
+        outputWrite("  </tr>\n");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#tableCaption() */
     @Override
     public void tableCaption() {
-        outputWrite("<caption>");
+        outputWrite("  <caption>\n   ");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#tableCaption_() */
     @Override
     public void tableCaption_() {
-        outputWrite("</caption>");
+        outputWrite("\n  </caption>\n");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#tableHeaderCell(java.lang.String) */
     @Override
     public void tableHeaderCell() {
-        outputWrite("<th>");
+        outputWrite("  <th>\n");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#tableHeaderCell(java.lang.String) */
     @Override
     public void tableHeaderCell_() {
-        outputWrite("</th>");
+        outputWrite("  </th>\n");
     }
     
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#table() */
     @Override
     public void table() {
-        outputWrite("<table>");
+        outputWrite("<table>\n");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#table_() */
     @Override
     public void table_() {
-        outputWrite("</table>");
+        outputWrite("</table>\n");
     }
 }
