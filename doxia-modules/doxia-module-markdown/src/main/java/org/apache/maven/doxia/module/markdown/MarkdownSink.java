@@ -50,14 +50,14 @@ public class MarkdownSink extends AbstractTextSink {
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#bold() */
     @Override
-    public final void bold() {
+    public void bold() {
         outputWrite("__");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#bold_() */
     @Override
-    public final void bold_() {
-        this.bold();
+    public void bold_() {
+        outputWrite("__");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#title() */
@@ -94,13 +94,13 @@ public class MarkdownSink extends AbstractTextSink {
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#italic() */
     @Override
-    public final void italic() {
+    public void italic() {
         outputWrite("_");
     }
     /** @see org.apache.maven.doxia.sink.SinkAdapter#italic_() */
     @Override
-    public final void italic_() {
-        this.italic();
+    public void italic_() {
+        outputWrite("_");
     }
     
     /** @see org.apache.maven.doxia.sink.SinkAdapter#verbatim(boolean) */

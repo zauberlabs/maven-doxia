@@ -36,8 +36,7 @@ public class TextParser
     /**
      * pattern to detect WikiWords
      */
-    private static final Pattern WIKIWORD_PATTERN =
-        Pattern.compile( "(!?)?(([A-Z]{1}[a-z0-9]+)?([A-Z]{1,2}[a-z0-9]+){1,}\\.)?([A-Z]{1}[a-z0-9]+)?([A-Z]{1,2}[a-z0-9]+){2,}(#\\w+)?" );
+    private static final Pattern WIKIWORD_PATTERN = Pattern.compile( "(!?)([A-Z]+[a-z\\d]+([A-Z]+[A-Za-z\\d]*)?\\.)?([A-Z]+[a-z\\d]+[A-Z]+[A-Za-z\\d]*)(#\\w+)?" );
 
     /**
      * pattern to detect SpecificLinks links [[reference][text]]
@@ -80,6 +79,8 @@ public class TextParser
 
     /** resolves noautolink tag */
     private boolean noautolink;
+    
+    private boolean inLinkRecursion = false;
 
     /**
      * Creates the TextParser.
@@ -126,25 +127,33 @@ public class TextParser
         {
             parseXHTML( line, ret, xhtmlMatcher );
         }
-        else if ( linkMatcher.find() )
+        else if ( linkMatcher.find()  && !inLinkRecursion )
         {
+            inLinkRecursion = true;
             parseLink( line, ret, linkMatcher );
+            inLinkRecursion = false;
         }
-        else if ( wikiMatcher.find() && startLikeWord( wikiMatcher, line ) && !noautolink )
+        else if ( wikiMatcher.find() && startLikeWord( wikiMatcher, line ) && !noautolink && !inLinkRecursion )
         {
+            inLinkRecursion = true;
             parseWiki( line, ret, wikiMatcher );
+            inLinkRecursion = false;
         }
-        else if ( forcedLinkMatcher.find() )
+        else if ( forcedLinkMatcher.find() && !inLinkRecursion)
         {
+            inLinkRecursion = true;
             parseForcedLink( line, ret, forcedLinkMatcher );
+            inLinkRecursion = false;
         }
         else if ( anchorMatcher.find() && isAWord( anchorMatcher, line ) )
         {
             parseAnchor( line, ret, anchorMatcher );
         }
-        else if ( urlMatcher.find() && isAWord( urlMatcher, line ) )
+        else if ( urlMatcher.find() && isAWord( urlMatcher, line ) && !inLinkRecursion)
         {
+            inLinkRecursion = true;
             parseUrl( line, ret, urlMatcher );
+            inLinkRecursion = false;
         }
         else if ( imageTagMatcher.find() )
         {
@@ -158,6 +167,7 @@ public class TextParser
             }
         }
 
+        inLinkRecursion = false;
         return ret;
     }
 

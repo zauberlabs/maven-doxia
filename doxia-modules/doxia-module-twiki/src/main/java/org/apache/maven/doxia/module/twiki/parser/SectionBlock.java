@@ -48,7 +48,7 @@ public class SectionBlock
      * @param level  the section level: 0 < level < 6
      * @param blocks child blocks
      */
-    public SectionBlock( final String title, final int level, final Block[] blocks )
+    public SectionBlock( final String title, int level, final Block[] blocks )
     {
         super( blocks );
         final int maxLevel = 5;
@@ -56,9 +56,11 @@ public class SectionBlock
         {
             throw new IllegalArgumentException( "title cant be null" );
         }
-        else if ( level < 1 || level > maxLevel )
+        else if ( level < 1 )
         {
             throw new IllegalArgumentException( "invalid level: " + level );
+        } else if ( level > 5 ){
+            level = 5;
         }
 
         this.title = title;

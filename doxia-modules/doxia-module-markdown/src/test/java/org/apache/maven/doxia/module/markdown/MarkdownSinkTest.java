@@ -15,7 +15,6 @@ import static org.apache.maven.doxia.module.markdown.MarkdownMarkup.LINK_START_M
 import static org.apache.maven.doxia.module.markdown.MarkdownMarkup.LIST_ITEM_MARKUP;
 import static org.apache.maven.doxia.module.markdown.MarkdownMarkup.MONOSPACED_END_MARKUP;
 import static org.apache.maven.doxia.module.markdown.MarkdownMarkup.MONOSPACED_START_MARKUP;
-import static org.apache.maven.doxia.module.markdown.MarkdownMarkup.NUMBERING_DECIMAL_MARKUP;
 
 import java.io.Writer;
 
